@@ -15,6 +15,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat('dataset().dirname','.csv')",
+					"type": "Expression"
+				},
 				"folderPath": {
 					"value": "@dataset().dirname",
 					"type": "Expression"
