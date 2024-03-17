@@ -1,0 +1,23 @@
+{
+	"name": "ds_csv_rawecomadls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_csv_rawecomadls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "payments.csv",
+				"fileSystem": "rawecomadls"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
