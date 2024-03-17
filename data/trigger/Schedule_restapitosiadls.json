@@ -1,5 +1,5 @@
 {
-	"name": "Schedule_sqltables",
+	"name": "Schedule_restapitosiadls",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
@@ -7,6 +7,12 @@
 			{
 				"pipelineReference": {
 					"referenceName": "pl_sqltable_parquet",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "copy_restapi_to_adls",
 					"type": "PipelineReference"
 				}
 			}
