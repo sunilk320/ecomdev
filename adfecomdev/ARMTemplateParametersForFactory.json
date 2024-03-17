@@ -13,6 +13,9 @@
 		},
 		"ls_adls_parquet_properties_typeProperties_url": {
 			"value": "https://formula2adls.dfs.core.windows.net/"
+		},
+		"ls_restapi_properties_typeProperties_url": {
+			"value": "https://retoolapi.dev/04BJDi/data"
 		}
 	}
 }
