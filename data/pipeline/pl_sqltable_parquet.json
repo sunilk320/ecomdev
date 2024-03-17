@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@createArray('order_item','orders')",
+						"value": "@createArray('order_items','orders')",
 						"type": "Expression"
 					},
 					"isSequential": true,
