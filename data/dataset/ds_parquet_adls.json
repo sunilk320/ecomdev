@@ -15,7 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "customer",
+				"fileName": "customer.parquet",
 				"folderPath": {
 					"value": "@dataset().dirname",
 					"type": "Expression"
