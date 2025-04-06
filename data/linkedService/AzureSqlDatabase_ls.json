@@ -1,0 +1,37 @@
+{
+	"name": "AzureSqlDatabase_ls",
+	"properties": {
+		"parameters": {
+			"qualifieddomainname": {
+				"type": "String",
+				"defaultValue": "dgxfreesqldbserver.database.windows.net"
+			},
+			"databasename": {
+				"type": "string",
+				"defaultValue": "dgx"
+			},
+			"username": {
+				"type": "string",
+				"defaultValue": "dgxserver"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "@{linkedService().qualifieddomainname}",
+			"database": "@{linkedService().databasename}",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "@{linkedService().username}",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVault_ls",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "azuresqlserversecret"
+			}
+		}
+	}
+}
