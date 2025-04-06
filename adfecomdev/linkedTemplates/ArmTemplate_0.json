@@ -7,32 +7,31 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfecomdev"
 		},
-		"ls_sql_tables_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'ls_sql_tables'"
-		},
 		"event_rawecomdadls_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/067e3b03-4f76-4f0c-ac2c-dc646ae2f9ac/resourceGroups/rg-databricks/providers/Microsoft.Storage/storageAccounts/formula2adls"
+		},
+		"AzureKeyVault_ls_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://sqlserverdb-key.vault.azure.net/"
+		},
+		"AzureSqlDatabase_ls_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "@{linkedService().qualifieddomainname}"
+		},
+		"AzureSqlDatabase_ls_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "@{linkedService().databasename}"
+		},
+		"AzureSqlDatabase_ls_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().username}"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/ls_sql_tables')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('ls_sql_tables_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Schedule_restapitosiadls')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
@@ -72,6 +71,61 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault_ls_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"parameters": {
+					"qualifieddomainname": {
+						"type": "String",
+						"defaultValue": "dgxfreesqldbserver.database.windows.net"
+					},
+					"databasename": {
+						"type": "string",
+						"defaultValue": "dgx"
+					},
+					"username": {
+						"type": "string",
+						"defaultValue": "dgxserver"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase_ls_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase_ls_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase_ls_properties_typeProperties_userName')]",
+					"password": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "AzureKeyVault_ls",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "azuresqlserversecret"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault_ls')]"
+			]
 		}
 	]
 }
