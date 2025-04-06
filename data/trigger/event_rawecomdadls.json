@@ -3,14 +3,7 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Stopped",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "copyfile_rawecomadlstosiadls",
-					"type": "PipelineReference"
-				}
-			}
-		],
+		"pipelines": [],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/rawecomadls/blobs/",
