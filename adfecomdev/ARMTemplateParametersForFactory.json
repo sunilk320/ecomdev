@@ -5,23 +5,8 @@
 		"factoryName": {
 			"value": "adfecomdev"
 		},
-		"ls_adls_parquet_accountKey": {
-			"value": ""
-		},
-		"ls_csv_rawecomadls_accountKey": {
-			"value": ""
-		},
 		"ls_sql_tables_connectionString": {
 			"value": ""
-		},
-		"ls_adls_parquet_properties_typeProperties_url": {
-			"value": "https://formula2adls.dfs.core.windows.net/"
-		},
-		"ls_csv_rawecomadls_properties_typeProperties_url": {
-			"value": "https://formula2adls.dfs.core.windows.net/"
-		},
-		"ls_restapi_properties_typeProperties_url": {
-			"value": "https://retoolapi.dev/04BJDi/data"
 		},
 		"event_rawecomdadls_properties_typeProperties_scope": {
 			"value": "/subscriptions/067e3b03-4f76-4f0c-ac2c-dc646ae2f9ac/resourceGroups/rg-databricks/providers/Microsoft.Storage/storageAccounts/formula2adls"
