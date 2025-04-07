@@ -5,6 +5,12 @@
 		"factoryName": {
 			"value": "adfecomdev"
 		},
+		"AzureDataLakeStorage_ls_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage_ls_properties_typeProperties_url": {
+			"value": "https://formula2adls.dfs.core.windows.net/"
+		},
 		"AzureKeyVault_ls_properties_typeProperties_baseUrl": {
 			"value": "https://sqlserverdb-key.vault.azure.net/"
 		},
