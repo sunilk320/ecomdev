@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfecomdev"
 		},
-		"event_rawecomdadls_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/067e3b03-4f76-4f0c-ac2c-dc646ae2f9ac/resourceGroups/rg-databricks/providers/Microsoft.Storage/storageAccounts/formula2adls"
-		},
 		"AzureKeyVault_ls_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://sqlserverdb-key.vault.azure.net/"
@@ -26,6 +22,10 @@
 		"AzureSqlDatabase_ls_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "@{linkedService().username}"
+		},
+		"event_rawecomdadls_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/067e3b03-4f76-4f0c-ac2c-dc646ae2f9ac/resourceGroups/rg-databricks/providers/Microsoft.Storage/storageAccounts/formula2adls"
 		}
 	},
 	"variables": {
@@ -33,44 +33,44 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Schedule_restapitosiadls')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase_ds')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase_ls",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"qualifieddomainname": "dgxfreesqldbserver.database.windows.net",
+						"databasename": "dgx",
+						"username": "dgxserver"
+					}
+				},
+				"parameters": {
+					"SchemaName": {
+						"type": "string"
+					},
+					"TableName": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [],
-				"type": "ScheduleTrigger",
+				"type": "AzureSqlTable",
+				"schema": [],
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Day",
-						"interval": 1,
-						"startTime": "2024-03-17T14:44:00",
-						"timeZone": "India Standard Time"
+					"schema": {
+						"value": "@dataset().SchemaName",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().TableName",
+						"type": "Expression"
 					}
 				}
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/event_rawecomdadls')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/rawecomadls/blobs/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('event_rawecomdadls_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase_ls')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureKeyVault_ls')]",
@@ -126,6 +126,46 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVault_ls')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Schedule_restapitosiadls')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-03-17T14:44:00",
+						"timeZone": "India Standard Time"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/event_rawecomdadls')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/rawecomadls/blobs/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('event_rawecomdadls_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
