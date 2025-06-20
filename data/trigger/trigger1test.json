@@ -1,0 +1,24 @@
+{
+	"name": "trigger1test",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "copyataletoadls",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 15,
+				"startTime": "2025-06-20T05:43:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
